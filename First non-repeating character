@@ -1,0 +1,42 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+  //write your code here
+  int t;
+  cin>>t;
+  while(t--)
+  {
+    int n;
+    cin>>n;
+    int p=n;
+    vector<char> v;
+    unordered_map<char,pair<int,int> > mymap;
+    while(n--)
+    {
+      char c;
+      cin>>c;
+      if(mymap.find(c)==mymap.end())
+      {
+      mymap[c]=make_pair(v.size(),1);
+      v.push_back(c);
+      }
+      else if(mymap.find(c)!=mymap.end() && mymap[c].second==1)
+      {
+        int x=mymap[c].first;
+        v.erase(v.begin()+x);
+        mymap[c].second++;
+      }
+      
+      int ans=v.size();
+      if(ans==0)
+      cout<<"-1"<<" ";
+      else
+      cout<<v[0]<<" ";
+      
+    }
+    cout<<"\n";
+  }
+  return 0;
+}
