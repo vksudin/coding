@@ -1,0 +1,82 @@
+#include<iostream>
+#include<bits/stdc++.h>
+using namespace std;
+
+class Graph{
+    public:
+    int vertex;
+    list<int>* adjacent;
+    bool *vertices;
+    Graph(int t)
+    {
+        vertex=t;
+        adjacent=new list<int>[t];
+        vertices=new bool[t];
+    }
+    void addEdge(int source,int destination)
+    {
+        adjacent[source].push_back(destination);
+        adjacent[destination].push_back(source);
+    }
+    void Breadth_first_search(int start)
+    {
+        int i;
+        for(i=0;i<vertex;i++)
+        vertices[i]=false;
+        
+        queue<int> q;
+        
+        vertices[start]=true;
+        
+        q.push(start);
+        
+        list<int>::iterator j;
+        
+       // cout<<start<<"->";
+        
+        while(!q.empty())
+        {
+            int curr_vertex=q.front();
+            
+            cout<<q.front()<<" ";
+            
+            vertices[curr_vertex]=true;
+            
+            
+            
+            //cout<<curr_vertex<<"->";
+            
+            q.pop();
+            
+            /*if(q.empty())
+            cout<<"yes"<<" ";
+            else
+            cout<<"no"<<" ";*/
+            
+            for(j=adjacent[curr_vertex].begin();j!=adjacent[curr_vertex].end();j++)
+            {
+                int present_vertex=*j;
+                if(!vertices[present_vertex])
+                {
+                    vertices[present_vertex]=true;
+                    q.push(present_vertex);
+                }
+            }
+        }
+    }
+    
+};
+
+
+int main()
+{
+    Graph g(4);
+    
+    g.addEdge(0,1);
+    g.addEdge(0,2);
+    g.addEdge(1,2);
+    g.addEdge(2,3);
+    //g.addEdge(3,3);
+    
+    g.Breadth_first_search(2);
+}
