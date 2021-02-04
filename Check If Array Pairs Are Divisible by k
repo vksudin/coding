@@ -1,0 +1,46 @@
+#include<iostream>
+#include<bits/stdc++.h>
+using namespace std;
+
+bool isArrange(int arr[],int n,int k)
+{
+    unordered_map<int,int> m;
+    for(int i=0;i<n;i++)
+    {
+        int rem=(arr[i]%k+k)%k;
+        m[rem]++;
+    }
+    for(int i=0;i<n;i++)
+    {
+        int rem=(arr[i]%k+k)%k;
+        if(rem==0)
+        {
+            if(m[rem]%2==1)
+            return false;
+        }
+        else if(2*rem==k)
+        {
+            if(m[rem]%2==1)
+            return false;
+        }
+        else
+        {
+            if(m[rem]!=m[k-rem])
+            return false;
+        }
+    }
+    return true;
+}
+
+int main()
+{
+    int n,k;
+    cin>>n>>k;
+    int arr[n],i;
+    for(i=0;i<n;i++)
+    cin>>arr[i];
+    if(isArrange(arr,n,k))
+    cout<<"YES"<<"\n";
+    else
+    cout<<"NO"<<"\n";
+}
