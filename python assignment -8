@@ -1,0 +1,48 @@
+#1.
+#Three lines to make our compiler able to draw:
+import sys
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+
+
+import numpy as np
+
+
+array=np.random.randint(180, size=5 ) 
+
+print(array)
+
+#array=[0,30,45,60,90]
+x=[i*(np.pi/180) for i in array]
+
+plt.plot(x,np.sin(x))
+
+plt.plot(x,np.cos(x))
+
+plt.show()
+#Two  lines to make our compiler able to draw:
+plt.savefig(sys.stdout.buffer)
+sys.stdout.flush()
+
+
+
+
+
+#2.
+import sys
+import matplotlib
+matplotlib.use('Agg')
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+y=np.random.randint(100,size=10) 
+mylabels = ["WB", "UP", "PUN", "TL","AP","BR","CG","ODI","ASSAM","HAR"]
+
+plt.pie(y, labels = mylabels)
+plt.show() 
+
+#Two  lines to make our compiler able to draw:
+plt.savefig(sys.stdout.buffer)
+sys.stdout.flush()
