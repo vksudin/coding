@@ -1,0 +1,30 @@
+#Three lines to make our compiler able to draw:
+import sys
+import matplotlib
+matplotlib.use('Agg')
+import numpy as np
+import matplotlib.pyplot as plt
+# Fixing random state for reproducibility
+np.random.seed(19680801)
+
+
+a1=np.random.randint(10,size=5)
+b1=np.random.randint(10,size=5)
+
+#plt.subplot(321)
+plt.scatter(a1,b1,alpha=0.7,marker=">",label="Triangle")
+a2=np.random.randint(10,size=5)
+b2=np.random.randint(10,size=5)
+#plt.subplot(322)
+plt.scatter(a2,b2,alpha=0.6,marker=r'$\clubsuit$',label="Luck")
+a3=np.random.randint(10, size=5)
+b3=np.random.randint(10, size=5)
+#plt.subplot(323)
+plt.scatter(a3,b3,alpha=0.5,marker="+",label="Plus")
+plt.xlabel("X-axis") 
+plt.ylabel("Y-axis") 
+plt.legend(loc='upper left') 
+plt.show()
+#Two  lines to make our compiler able to draw:
+plt.savefig(sys.stdout.buffer)
+sys.stdout.flush()
