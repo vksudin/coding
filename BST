@@ -1,0 +1,314 @@
+#include<iostream>
+#include<bits/stdc++.h>
+using namespace std;
+//I take a static variable for count the nodes in a binary search tree
+int c=0;
+
+
+/*create the node
+of the tree */
+
+
+struct node{
+    int data;
+    struct node *left,*right;
+};
+
+/*createb the binary tree which helps us create a tree instead of this function you can use
+insert function that i implement later*/
+
+
+
+struct node *create()
+{
+    struct node *newnode=(struct node*)malloc(sizeof(struct node));
+    int x;
+    cin>>x;
+    if(x==-1)
+    {
+        return NULL;
+    }
+    newnode->data=x;
+    cout<<"enter the left node of "<<x<<"\n";
+    newnode->left=create();
+    cout<<"enter the right node of "<<x<<"\n";
+    newnode->right=create();
+    return newnode;
+}
+
+/*This function is subfunction of insert function */
+
+
+struct node *getnew(int x)
+{
+    struct node *newnode=(struct node*)malloc(sizeof(struct node));
+    newnode->data=x;
+    newnode->left=NULL;
+    newnode->right=NULL;
+    return newnode;
+}
+
+/*insert function for inserting a node in this tree*/
+
+struct node *insert(struct node *root,int key)
+{
+    if(root==NULL)
+    {
+        return getnew(key);
+    }
+    else if(key<=root->data)
+    {
+        root->left=insert(root->left,key);
+    }
+    else
+    {
+        root->right=insert(root->right,key);
+    }
+    return root;
+}
+
+/*search an element in this binary tree*/
+
+
+bool search(struct node *root,int key)
+{
+    if(root==NULL)
+    {
+        return false;
+    }
+    else if(root->data==key)
+    {
+        return true;
+    }
+    else if(key<=root->data)
+    {
+        return search(root->left,key);
+    }
+    else
+    {
+        return search(root->right,key);
+    }
+}
+
+
+/*This FindMin() function is a subFunction of Function Delete()
+this function helps us to find the minimum element in a right subtree
+so we can change the maximum value with the node which we have to delete*/
+
+
+struct node *FindMin(struct node *root)
+{
+    while(root->left!=NULL)
+    root=root->left;
+    return root;
+}
+
+
+/*simply Delete() for delete a node of a particular value*/
+
+
+struct node *Delete(struct node *root,int data)
+{
+    if(root==NULL)
+    return root;
+    else if(data<root->data)
+    root->left=Delete(root->left,data);
+    else if(data>root->data)
+    root->right=Delete(root->right,data);
+    else
+    {
+        if(root->left==NULL && root->right==NULL)
+        {
+        delete root;
+        root=NULL;
+        }
+        else if(root->left==NULL)
+        {
+            struct node *temp=root;
+            root=root->right;
+            delete temp;
+        }
+        else if(root->right==NULL)
+        {
+            struct node *temp=root;
+            root=root->right;
+            delete temp;
+        }
+        else
+        {
+            struct node *temp=FindMin(root->right);
+            root->data=temp->data;
+            root->right=Delete(root->right,temp->data);
+        }
+    }
+    return root;
+}
+
+/*This function for find the smallest number of a binary search tree*/
+
+
+int smallest(struct node *root)
+{
+    struct node *temp=root;
+    while(temp!=NULL && temp->left!=NULL)
+    {
+        temp=temp->left;
+    }
+    return temp->data;
+}
+
+/*This function count the total number of nodes in a binary search tree*/
+
+int count_node(struct node *root)
+{
+    if(root!=NULL)
+    {
+        count_node(root->left);
+        c++;
+        count_node(root->right);
+    }
+    return c;
+}
+
+/*This function for find the largest number of a binary search tree*/
+
+
+int largest(struct node *root)
+{
+    struct node *temp=root;
+    while(temp!=NULL && temp->right!=NULL)
+    {
+        temp=temp->right;
+    }
+    return temp->data;
+}
+
+/*This function count the total internal nodes 
+as i am a very lazy man so i don't create any function for count external node so you can subtract
+internal nodes from total nodes*/
+
+
+int count_internal(struct node *root)
+{
+    if(root==NULL || (root->left==NULL && root->right==NULL))
+    return 0;
+    return 1+count_internal(root->left)+count_internal(root->right);
+}
+
+/*This function return the height of a BST*/
+
+
+int height(struct node *root)
+{
+    if(root==NULL)
+    return -1;
+    return max(height(root->left),height(root->right))+1;
+}
+
+/*This function for postorder traversal*/
+
+
+void postorder(struct node *root)
+{
+    if(root==NULL)
+    return;
+    postorder(root->left);
+    postorder(root->right);
+    cout<<root->data<<"\n";
+}
+
+/*This function for preorder traversal*/
+
+
+
+void preorder(struct node *root)
+{
+    if(root==NULL)
+    return;
+    cout<<root->data<<"\n";
+    preorder(root->left);
+    preorder(root->right);
+}
+
+/*This function for inorder*/
+
+
+void inorder(struct node *root)
+{
+    if(root==NULL)
+    return;
+    inorder(root->left);
+    cout<<root->data<<"\n";
+    inorder(root->right);
+}
+
+/*driver code i will complete it tomorrow*/
+
+
+
+int main()
+{
+    struct node *root=NULL;
+    root=create();
+    cout<<"1 for insert\n";
+    cout<<"2 for delete\n";
+    cout<<"3 for inorder\n";
+    cout<<"4 for preorder\n";
+    cout<<"5 for postorder\n";
+    cout<<"6 for search\n";
+    cout<<"7 for largest element\n";
+    cout<<"8 for smallest element\n";
+    cout<<"9 for internal nodes\n";
+    cout<<"10 for external nodes\n";
+    cout<<"11 for total nodes\n";
+    cout<<"12 for end\n";
+    int a,b;
+    while(1)
+    {
+        cin>>a;
+        switch(a)
+        {
+            case 1:
+            cin>>b;
+            insert(root,b);
+            break;
+            case 2:
+            cin>>b;
+            Delete(root,b);
+            break;
+            case 3:
+            inorder(root);
+            break;
+            case 4:
+            preorder(root);
+            break;
+            case 5:
+            postorder(root);
+            break;
+            case 6:
+            cin>>b;
+            if(search(root,b))
+            cout<<"Element in the list:"<<"\n";
+            else
+            cout<<"Element not in the list:"<<"\n";
+            break;
+            case 7:
+            cout<<"The largest element is:"<<largest(root)<<"\n";
+            break;
+            case 8:
+            cout<<"The smallest element is:"<<smallest(root)<<"\n";
+            break;
+            case 9:
+            cout<<"The total number of internal nodes is: "<<count_internal(root)<<"\n";
+            break;
+            case 10:
+            cout<<"The total number of external nodes is: "<<(count_node(root)-count_internal(root))<<"\n";
+            break;
+            case 11:
+            cout<<"The total number of nodes is:"<<count_node(root)<<"\n";
+            break;
+            case 12:
+            exit(0);
+        }
+    }
+}
