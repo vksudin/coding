@@ -1,0 +1,47 @@
+#include<iostream>
+#include<bits/stdc++.h>
+using namespace std;
+
+bool perCube(long long int x)
+{
+    if(x==0 || x<0)
+    return false;
+    long long int cnt=cbrt(x);
+    cnt=floor(cnt);
+    if(cnt*cnt*cnt==x)
+    return true;
+    else
+    return false;
+}
+
+bool isCube(long long int x)
+{
+    long long int cnt=cbrt(x);
+    cnt=floor(cnt);
+    long long int i;
+    for(i=1;i<=cnt;i++)
+    {
+        long long int res=i*i*i;
+        long long int ans=(x-res);
+        if(perCube(ans)==true)
+        return true;
+    }
+    return false;
+}
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        long long int x;
+        cin>>x;
+        long long int cnt=cbrt(x);
+        cnt=floor(cnt);
+        if(isCube(x)==true)
+        cout<<"YES"<<"\n";
+        else
+        cout<<"NO"<<"\n";
+    }
+}
