@@ -1,0 +1,30 @@
+int longestUniqueSubsttr(string S)
+  {
+        int n=S.size(),i;
+        map<char,int> fre;
+        int maximum=0,len=0;
+        int j=0;
+        for(i=0;i<n;i++)
+        {
+            fre[S[i]]++;
+            if(fre[S[i]]>1)
+            {
+                while(S[j]!=S[i] && j!=n-1)
+                {
+                    fre[S[j]]--;
+                    j++;
+                }
+                j++;
+                fre[S[i]]--;
+                len=(i-j+1);
+                maximum=max(maximum,len);
+            }
+            else
+            {
+                len++;
+                maximum=max(maximum,len);
+            }
+        }
+        return maximum;
+        //code
+}
