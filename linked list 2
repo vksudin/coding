@@ -52,6 +52,39 @@ void display(node* head)
     cout<<"\n";
 }
 
+void makeCycle(node* &head,int pos)//for make cycle in linked list
+{
+    node* temp=head;
+    node* start;
+    int count=1;
+    while(temp->next!=NULL)
+    {
+        if(count==pos)
+        {
+            start=temp;
+        }
+        temp=temp->next;
+        count++;
+    }
+    temp->next=start;
+}
+
+bool isCycle(node* &head)//detect a cycle if there is a cycle in linked list or not
+{
+    node* fast=head;
+    node* slow=head;
+    while(fast!=NULL && fast->next!=NULL)
+    {
+        slow=slow->next;
+        fast=fast->next->next;
+        if(fast==slow)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 void deletion(node* &head,int val)
 {
     
@@ -75,6 +108,25 @@ void deletion(node* &head,int val)
    temp->next=temp->next->next;
    delete todelete;
     
+}
+
+void removeCycle(node* &head)
+{
+    node* slow=head;
+    node* fast=head;
+    do{
+        slow=slow->next;
+        fast=fast->next->next;
+    }while(slow!=fast);
+    
+    fast=head;
+    
+    while(slow->next!=fast->next)
+    {
+        slow=slow->next;
+        fast=fast->next;
+    }
+    slow->next=NULL;
 }
 
 void delete_first(node* &head)
@@ -103,7 +155,22 @@ int main()
     insertAtTail(head,2);
     insertAtTail(head,3);
     insertAtBegin(head,4);
+    insertAtBegin(head,5);
+    insertAtTail(head,6);
+    makeCycle(head,2);
+    if(isCycle(head))
+    cout<<"YES"<<"\n";
+    else
+    cout<<"NO"<<"\n";
+    
+    removeCycle(head);
+    if(isCycle(head))
+    cout<<"YES"<<"\n";
+    else
+    cout<<"NO"<<"\n";
+    
+    
     display(head);
-    node* newhead=reverseRecursive(head);
-    display(newhead);
+    //node* newhead=reverseRecursive(head);
+    //display(newhead);
 }
